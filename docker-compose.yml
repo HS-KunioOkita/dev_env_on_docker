@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+
+  redmine:
+    image: redmine
+    ports:
+      - 8080:3000
+    depends_on:
+      - db
+    links:
+      - db:postgres
+    restart: always
+
+  db:
+    image: postgres
+    volumes:
+      - ./pgdata/:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_USER: redmine
+      POSTGRES_PASSWORD: redmine
+    restart: always
