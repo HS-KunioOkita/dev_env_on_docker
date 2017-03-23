@@ -2,10 +2,30 @@ version: '2'
 
 services:
 
+  openldap:
+    image: dinkel/openldap
+    ports:
+      - 389:389
+    environment:
+      SLAPD_PASSWORD: secret
+      SLAPD_DOMAIN: ldap.example.org
+    volumes:
+      - ./ldap/config:/etc/ldap:rw
+      - ./ldap/data:/var/lib/ldap:rw
+    restart: always
+
+  jenkins:
+    build: jenkins_build
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - ./jenkins:/var/jenkins_home:rw
+
   redmine:
     image: redmine
     ports:
-      - 8080:3000
+      - 3000:3000
     depends_on:
       - db
     links:
