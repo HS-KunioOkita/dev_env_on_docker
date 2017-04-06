@@ -2,6 +2,16 @@ version: '2'
 
 services:
 
+  subversion:
+    image: marvambass/subversion
+    ports:
+      - 4000:443
+    volumes:
+      - ./svn/svn:/var/local/svn:rw
+      - ./svn/backup:/var/svn-backup:rw
+      - ./svn/conf:/etc/apache2/dav_svn/:rw
+    restart: always
+
   openldap:
     image: dinkel/openldap
     ports:
