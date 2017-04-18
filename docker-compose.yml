@@ -1,9 +1,47 @@
 version: '2'
 
 services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    hostname: localhost
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost:5080'
+        gitlab_rails['gitlab_shell_ssh_port'] = 5022
+    volumes:
+      - ./gitlab/config:/etc/gitlab:rw
+      - ./gitlab/logs:/var/log/gitlab:rw
+      - ./gitlab/data:/var/opt/gitlab:rw
+    ports:
+      - "5443:443"
+      - "5080:5080"
+      - "5022:22"
+    restart: always
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - ./mongo/data/runtime/db:/data/db
+      - ./mongo/dump:/dump
+    command: mongod --smallfiles
+
+  rocketchat:
+    image: rocketchat/rocket.chat:latest
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/rocketchat
+      # RocketChatのURL（ここではホスト名をlocalhostとしています）
+      - ROOT_URL=http://localhost
+      # アカウントのメールアドレスのドメインチェックを無効化
+      - Accounts_UseDNSDomainCheck=false
+    depends_on:
+      - mongo
+    links:
+      - mongo:mongo
+    ports:
+      - 5000:3000
 
   subversion:
-    image: marvambass/subversion
+    image: marvambass/subversion:latest
     ports:
       - 4000:443
     volumes:
@@ -13,7 +51,7 @@ services:
     restart: always
 
   openldap:
-    image: dinkel/openldap
+    image: dinkel/openldap:latest
     ports:
       - 389:389
     environment:
@@ -25,15 +63,16 @@ services:
     restart: always
 
   jenkins:
-    build: jenkins_build
+    image: jenkins:latest
     ports:
       - 8080:8080
       - 50000:50000
     volumes:
       - ./jenkins:/var/jenkins_home:rw
+    restart: always
 
   redmine:
-    image: redmine
+    image: redmine:latest
     ports:
       - 3000:3000
     depends_on:
@@ -43,7 +82,7 @@ services:
     restart: always
 
   db:
-    image: postgres
+    image: postgres:latest
     volumes:
       - ./pgdata/:/var/lib/postgresql/data:rw
     environment:
