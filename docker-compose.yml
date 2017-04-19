@@ -75,6 +75,8 @@ services:
     image: redmine:latest
     ports:
       - 3000:3000
+    volumes:
+      - ./redmine/data:/home/redmine/data:rw
     depends_on:
       - db
     links:
