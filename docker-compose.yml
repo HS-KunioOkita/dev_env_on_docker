@@ -40,14 +40,12 @@ services:
     ports:
       - 5000:3000
 
-  subversion:
-    image: marvambass/subversion:latest
+  usvn:
+    image: sharaku/usvn:latest
     ports:
-      - 4000:443
+      - 8000:80
     volumes:
-      - ./svn/svn:/var/local/svn:rw
-      - ./svn/backup:/var/svn-backup:rw
-      - ./svn/conf:/etc/apache2/dav_svn/:rw
+      - ./svn:/var/lib/svn:rw
     restart: always
 
   openldap:
