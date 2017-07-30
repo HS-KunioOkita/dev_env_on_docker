@@ -10,14 +10,17 @@
 3. OpenLDAP
     - port : 389  
 
-4. Subversion  
-    - port : 4000
+4. Subversion(usvn)  
+    - port : 8000
 
 5. Rocket Chat depend on mongo  
     - port : 5000  
 
 6. GitLab (Git)  
     - port : 5443, 5080, 5022  
+
+7. Portainer(Docker管理用GUI) 
+    - port : 9000  
 
 # 手順
 
