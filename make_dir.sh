@@ -6,3 +6,5 @@ for d in $DIRS
 do
     mkdir -p $DIRS
 done
+
+chmod 0777 ./jenkins
