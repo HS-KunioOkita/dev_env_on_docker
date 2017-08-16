@@ -41,7 +41,7 @@ services:
       - 5000:3000
 
   usvn:
-    image: sharaku/usvn:latest
+    image: chocobouzu/usvn:latest
     ports:
       - 8000:80
     volumes:
