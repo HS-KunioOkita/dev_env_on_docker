@@ -1,4 +1,5 @@
 # 開発環境構築用Docker Compose
+masterとは違い、Jenkinsの代わりにConcourseCIを入れています。
 
 1. Redmine depend on postgres  
     - port : 3000  
