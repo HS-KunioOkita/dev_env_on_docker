@@ -4,8 +4,8 @@
     - port : 3000  
     - admin : cn=admin,dc=ldap,dc=example,dc=org  
 
-2. Jenkins
-    - port : 8080,50000  
+2. ConcourseCI(パイプライン形式のCIツール)
+    - port : 8080
 
 3. OpenLDAP
     - port : 389  
@@ -22,8 +22,6 @@
 7. Portainer(Docker管理用GUI) 
     - port : 9000  
 
-8. ConcourseCI(パイプライン形式のCIツール)
-    - port : 8081
 
 # 手順
 
