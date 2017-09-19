@@ -25,6 +25,37 @@ services:
       - ./mongo/dump:/dump
     command: mongod --smallfiles
 
+  oncourse-db:
+    image: postgres:9.5
+    environment:
+      POSTGRES_DB: concourse
+      POSTGRES_USER: concourse
+      POSTGRES_PASSWORD: changeme
+      PGDATA: /database
+  
+  concourse-web:
+    image: concourse/concourse:2.0.0
+    links: [concourse-db]
+    command: web
+    ports: ["8081:8081"]
+    volumes: ["./keys/web:/concourse-keys"]
+    environment:
+      CONCOURSE_BASIC_AUTH_USERNAME: user
+      CONCOURSE_BASIC_AUTH_PASSWORD: password
+      CONCOURSE_EXTERNAL_URL: http://127.0.0.1:8081
+      CONCOURSE_POSTGRES_DATA_SOURCE: |- 
+        postgres://concourse:changeme@concourse-db:5432/concourse?sslmode=disable
+  
+  concourse-worker:
+    image: concourse/concourse:2.0.0
+    privileged: true
+    links: [concourse-web]
+    command: worker
+    volumes: ["./keys/worker:/concourse-keys"]
+    environment:
+      CONCOURSE_TSA_HOST: concourse-web
+    
+
   rocketchat:
     image: rocketchat/rocket.chat:latest
     environment:
