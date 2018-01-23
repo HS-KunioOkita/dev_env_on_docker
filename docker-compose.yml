@@ -101,3 +101,15 @@ services:
     ports:
       - 9000:9000
     restart: always
+
+  wekan:
+    image: mquandalle/wekan
+    restart: always
+    links:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/wekan
+      - ROOT_URL=http://192.168.200.55:8081
+    ports:
+      - 8081:80
+
