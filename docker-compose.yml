@@ -77,6 +77,9 @@ services:
       - 3000:3000
     volumes:
       - ./redmine/data:/home/redmine/data:rw
+      - ./redmine/files:/usr/src/redmine/files:rw
+      - ./redmine/plugins:/usr/src/redmine/plugins:rw
+      - ./redmine/themes:/usr/src/redmine/themes:rw
     depends_on:
       - db
     links:
